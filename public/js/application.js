@@ -1,21 +1,28 @@
+$(document).ready(function() {
+  $('form').on('submit', function(e){
+    e.preventDefault();
+    console.log("submitted");   
+    $.ajax({
+      type: 'post',
+      url: '/roll',
+      data: 'roles'
+    }).done( function(data){
+      console.log(data.roles);
+      roleRender(DieRoles.render(data.roles));
+      
+    });
+  });
+});
+
 DieRoles = {};
-
-
-DieRoles.render = function(){
-
+DieRoles.render = function(roles){
   var elements = $();
-
-  // HINT: change this to get the roles from the server somehow.
-  var roles = JSON.parse(decodeURIComponent(window.location.href.substring(29)));
-
   roles.forEach(function(role){
     elements = elements.add($('<li>').text(role));
   });
-
-  return elements;
+return elements
 };
 
-$(function(){
-  $('.die-roles').html(DieRoles.render());
-
-});
+function roleRender(elements){
+  $('.die-roles').html(elements);
+};

@@ -4,10 +4,13 @@ get '/' do
 end
 
 post '/roll' do
-  p "******"
-  p session
+  
+  
   dice_roles.roll! #shovels a random number to the roles array for the current DieRolls instance
-  redirect to "/?roles=#{CGI.escape dice_roles.roles.to_json}"
+  
+  
+  content_type :json
+  {roles: session[:roles]}.to_json
 end
 
 get '/roles' do
